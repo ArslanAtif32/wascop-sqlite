@@ -1,104 +1,85 @@
-import traceback
+"""SQLite database adapter for WAScope."""
 import os
-import pymysql
+import sqlite3
+from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
-load_dotenv(find_dotenv('.env'))
-env = os.environ
+ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(find_dotenv(".env", usecwd=True) or ROOT / ".env")
+DB_PATH = Path(os.getenv("WASCOPE_DB_PATH", str(ROOT / "data" / "wascope.sqlite3")))
+if not DB_PATH.is_absolute():
+    DB_PATH = ROOT / DB_PATH
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+SCHEMA_PATH = ROOT / "sql" / "lmad_sqlite.sql"
 
 
 class DB:
-    conn = None
-    closeFlag = False
-
-    # constructor
     def __init__(self):
-        # open db
-        try:
-            self.conn = self.to_connect()
-        except Exception as e:
-            print("Exception: Can not connect to MySQL database.")
-            exit(0)
+        self.conn = sqlite3.connect(str(DB_PATH), timeout=30)
+        self.conn.row_factory = sqlite3.Row
+        self.conn.execute("PRAGMA foreign_keys = ON")
+        if SCHEMA_PATH.exists():
+            with SCHEMA_PATH.open("r", encoding="utf-8") as schema:
+                self.conn.executescript(schema.read())
+            self.conn.commit()
 
-    # destructor
     def __del__(self):
-        # if self.closeFlag:
-        #     self.conn['cursor'].close()
-        #     self.conn['db'].close()
         try:
             self.close()
-        except Exception as e:
-            print(str(e))
-            exit(0)
-
-    def to_connect(self):
-        db = pymysql.connect(host=env.get("MYSQL_HOST"), user=env.get("MYSQL_USER"), password=env.get("MYSQL_PWD"),
-                             database=env.get("MYSQL_DB"), charset='utf8', autocommit=True)
-        cursor = db.cursor(cursor=pymysql.cursors.DictCursor)
-        return {
-            'db': db,
-            'cursor': cursor
-        }
+        except Exception:
+            pass
 
     def close(self):
-        # self.closeFlag = True
-        if self.conn:
-            self.conn['cursor'].close()
-            self.conn['db'].close()
+        conn = getattr(self, "conn", None)
+        if conn is not None:
+            conn.close()
+            self.conn = None
 
     def is_connected(self):
-        """Check if the server is alive"""
-        try:
-            self.conn['db'].ping(reconnect=True)
-            # print("db is connecting")
-        except:
-            traceback.print_exc()
-            self.conn = self.to_connect()
-            # print("db reconnect")
+        if getattr(self, "conn", None) is None:
+            self.conn = sqlite3.connect(str(DB_PATH), timeout=30)
+            self.conn.row_factory = sqlite3.Row
+
+    def query(self, sql, params=()):
+        self.is_connected()
+        cur = self.conn.execute(sql, params)
+        if cur.description is None:
+            self.conn.commit()
+            return []
+        return [dict(row) for row in cur.fetchall()]
 
     def __add(self, table, fields, values):
         self.is_connected()
-        # print(values)
-        sql = "insert into " + table + "(" + fields + ") values(" + values + ")"
-        # print("add sql===>>>", sql)
-        self.conn['cursor'].execute(sql)
+        field_names = [f.strip() for f in fields.split(",")]
+        if isinstance(values, dict):
+            data = values
+            field_names = list(data.keys())
+            vals = list(data.values())
+        else:
+            # Compatibility for legacy callers passing comma-separated SQL values.
+            # New code should pass a dict so data is parameterized safely.
+            raise TypeError("SQLite inserts require values as a dictionary")
+        placeholders = ",".join("?" for _ in field_names)
+        sql = "INSERT INTO {} ({}) VALUES ({})".format(
+            table, ",".join(field_names), placeholders
+        )
+        self.conn.execute(sql, vals)
+        self.conn.commit()
 
-    def add_scanner(self, table='scanner', fields='url,json,create_time', values=''):
+    def add_scanner(self, table="scanner", fields="url,json,create_time", values=None):
         self.__add(table, fields, values)
 
-    def add_request_record(self, table='request_record',
-                           fields='flow_id,host,port,hash,'
-                                  'method,url,referer,content_type,response,response_exists_sensitive,response_sensitive,'
-                                  'path,path_exist_sensitive,path_sensitive,'
-                                  'get_params,get_exist_sensitive,get_sensitive,'
-                                  'post_params,post_exist_sensitive,post_sensitive,'
-                                  'create_time',
-                           values=''):
+    def add_request_record(self, table="request_record", fields="", values=None):
         self.__add(table, fields, values)
 
-    def add_request_record_second(self, table='request_record_second',
-                                  fields='host,hash,method,content_type,referer,'
-                                         'origin_url,url,response,response_exists_sensitive,response_sensitive,'
-                                         'response_hash,gen_params,create_time',
-                                  values=''):
+    def add_request_record_second(self, table="request_record_second", fields="", values=None):
         self.__add(table, fields, values)
 
-    # print(values)
+    def query_data(self, table, where="1=1", fields="*", params=()):
+        return self.query("SELECT {} FROM {} WHERE {}".format(fields, table, where), params)
 
-    def query(self, sql):
-        self.is_connected()
-        self.conn['cursor'].execute(sql)
-        return self.conn['cursor'].fetchall()
-        # data = pd.DataFrame(list(ds), columns=cols)
-        # print(data)
+    def query_request_record(self, where="1=1", fields="*", params=()):
+        return self.query_data("request_record", where, fields, params)
 
-    def query_data(self, table, where, fields='*'):
-        sql = "select " + fields + " from " + table + " where " + where
-        # print("query sql===>>>", sql)
-        return self.query(sql)
-
-    def query_request_record(self, where='1=1', fields='*'):
-        return self.query_data(table='request_record', where=where, fields=fields)
-
-    def query_request_record_second(self, where='1=1', fields='*'):
-        return self.query_data(table='request_record_second', where=where, fields=fields)
+    def query_request_record_second(self, where="1=1", fields="*", params=()):
+        return self.query_data("request_record_second", where, fields, params)

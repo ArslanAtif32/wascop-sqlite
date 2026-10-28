@@ -39,8 +39,23 @@ def favicon():
 @app.route('/hosts_list')
 def hosts_list():
     CtrlReqRecd = ControllerRequestRecord()
-    rs = CtrlReqRecd.query_record_second(fields='distinct(host),to_base64(host) as host_base64', where='1=1 order by create_time desc ')
-    return respond(_data=rs)
+    rs = CtrlReqRecd.query_record_second(
+        fields="DISTINCT host, create_time",
+        where="1=1 ORDER BY create_time DESC"
+    )
+    # SQLite has no built-in TO_BASE64() function.
+    seen = set()
+    hosts = []
+    for item in rs:
+        host = item.get("host") or ""
+        if host in seen:
+            continue
+        seen.add(host)
+        item["host_base64"] = base64.urlsafe_b64encode(
+            host.encode("utf-8")
+        ).decode("ascii")
+        hosts.append(item)
+    return respond(_data=hosts)
 
 
 # get host analysis result

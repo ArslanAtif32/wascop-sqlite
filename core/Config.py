@@ -1,4 +1,4 @@
-hosts = ['edu.cn']
+hosts = ['localhost', '127.0.0.1']
 methods = ['post', 'get']
 accepts = ['json']
 post_content_type = ['application/x-www-form-urlencoded', 'application/json', 'multipart/form-data']

@@ -62,9 +62,9 @@ multidict==6.4.4
 multiprocess==0.70.16
 murmurhash==1.0.13
 networkx==3.5
-numpy==1.26.4
 packaging==25.0
-pandas==2.1.4
+numpy==2.2.6
+pandas==2.2.3
 parse==1.20.0
 passlib==1.7.4
 pillow==10.2.0
