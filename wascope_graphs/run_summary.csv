@@ -1,0 +1,9 @@
+﻿metric,value
+captured_request_records,21
+replay_response_records,82
+captured_response_records_with_sensitive_indicators,15
+captured_path_records_with_sensitive_indicators,10
+captured_get_records_with_sensitive_indicators,3
+captured_post_records_with_sensitive_indicators,1
+replay_records_with_sensitive_indicators,62
+unique_original_api_endpoints_replayed,5
