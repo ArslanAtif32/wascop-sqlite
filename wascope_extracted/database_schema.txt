@@ -1,0 +1,5 @@
+Database: D:\WAScope\data\wascope.sqlite3
+
+Tables and columns:
+- request_record: id, flow_id, host, port, hash, method, referer, url, content_type, response, response_exists_sensitive, response_sensitive, path, path_exist_sensitive, path_sensitive, get_params, get_exist_sensitive, get_sensitive, post_params, post_exist_sensitive, post_sensitive, create_time
+- request_record_second: id, host, hash, method, content_type, referer, origin_url, url, gen_params, response_hash, response, response_exists_sensitive, response_sensitive, create_time
