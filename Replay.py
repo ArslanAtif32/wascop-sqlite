@@ -91,6 +91,6 @@ def run(_host):
 parser = argparse.ArgumentParser()
 parser.add_argument('--host', type=str, default='')
 args = parser.parse_args()
-host = args.host
+host = 'localhost' if args.host == '' else args.host
 print("host:", host)
 run(host)

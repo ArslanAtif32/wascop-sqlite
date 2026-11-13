@@ -1,6 +1,7 @@
 import sqlite3
 
-DB_PATH = r"C:\Users\ALI PC\Desktop\wascop-sqlite\data\wascope.sqlite3"
+DB_PATH =r"D:\WAScope\data\wascope.sqlite3"
+
 
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
