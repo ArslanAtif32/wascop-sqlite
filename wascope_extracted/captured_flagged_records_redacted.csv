@@ -18,3 +18,6 @@
 19,localhost,GET,/api/Products/{numeric_id},18,1,0,0,data.alternateImages.0.density; data.alternateImages.0.file; data.alternateImages.0.format; data.alternateImages.1.density; data.alternateImages.1.file; data.alternateImages.1.format; data.alternateImages.2.density; data.alternateImages.2.file; data.alternateImages.2.format; data.createdAt; data.deletedAt; data.deluxePrice; data.description; data.id; data.image; data.name; data.price; data.updatedAt,Products,,,1794462440
 20,localhost,GET,/api/Products/{numeric_id},18,1,0,0,data.alternateImages.0.density; data.alternateImages.0.file; data.alternateImages.0.format; data.alternateImages.1.density; data.alternateImages.1.file; data.alternateImages.1.format; data.alternateImages.2.density; data.alternateImages.2.file; data.alternateImages.2.format; data.createdAt; data.deletedAt; data.deluxePrice; data.description; data.id; data.image; data.name; data.price; data.updatedAt,Products,,,1794462441
 21,localhost,GET,/rest/products/{numeric_id}/reviews,0,1,0,0,,products,,,1794462447
+22,localhost,GET,/rest/user/whoami,0,1,1,0,,user,fields,,1794471825
+23,localhost,GET,/rest/captcha/,2,0,0,0,answer; captchaId,,,,1794471825
+24,localhost,GET,/rest/captcha/,2,0,0,0,answer; captchaId,,,,1794471838
