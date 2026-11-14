@@ -1,8 +1,15 @@
 import re
 import json
-import core.Config as Config
+import sys
+from pathlib import Path
+
+# Add the project root (D:\WAScope) to Python's module search path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+import Config as Config
+import lib
 import lib.Utils as Utility
-import core.Filter as Filter
+import Filter as Filter
 from urllib.parse import parse_qsl
 
 
