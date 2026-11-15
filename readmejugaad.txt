@@ -8,11 +8,16 @@ step2: now run  chrome driver
 for running chrome driver if  :
 $chrome = "$env:ProgramFiles\Google\Chrome\Application\chrome.exe"
 
-& $chrome `
-  --user-data-dir="$env:TEMP\wascope-test" `
-  --proxy-server="http://127.0.0.1:8080" `
-  --proxy-bypass-list="<-loopback>" `
-  http://localhost:3000
+$chrome = "$env:ProgramFiles\Google\Chrome\Application\chrome.exe"
+
+if (!(Test-Path $chrome)) {
+    $chrome = "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+}
+
+Start-Process -FilePath $chrome -ArgumentList @(
+    "--proxy-server=http://127.0.0.1:8080",
+    "--user-data-dir=C:\WAScope-Chrome"
+)
 
 step 3:
 now verify headers python -c "import json; d=json.load(open('mitmproxy/localhost/header.json',encoding='utf-8')); print('Keys:',list(d)); print('Headers captured:',bool(d.get('request_header')))"

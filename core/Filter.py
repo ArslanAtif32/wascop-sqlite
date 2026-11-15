@@ -11,16 +11,20 @@ import core.Config as Config
 def check_empty_collection(_collection):
     return '' if len(_collection) == 0 else _collection
 
-
 def check_host(_host):
-    _host = str(_host).lower()
-    flag = False
-    for host in Config.hosts:
-        if host in _host:
-            flag = True
-            break
-    return flag
+    host = str(_host).strip().lower().rstrip(".")
 
+    # Empty host list means allow all websites.
+    if not Config.hosts:
+        return True
+
+    for allowed_host in Config.hosts:
+        allowed_host = allowed_host.lower().strip().rstrip(".")
+
+        if host == allowed_host or host.endswith("." + allowed_host):
+            return True
+
+    return False
 
 def check_method(_method):
     return str(_method).lower() in Config.methods
