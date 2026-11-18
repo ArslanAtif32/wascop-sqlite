@@ -1,0 +1,33 @@
+WASCOPE PRIVACY INDICATOR CLASSIFICATION
+========================================================================
+Database: wascope.sqlite3
+Database access: READ-ONLY
+Values printed/exported: NONE (field names and metadata only)
+
+IMPORTANT: Category matches indicate field names in stored responses, not confirmed leaks.
+Request-side indicators, when enabled, are shown separately and are not leakage evidence.
+
+LOGIN CREDENTIALS (2 indicator row(s))
+------------------------------------------------------------------------
+[Captured response] www.donateaprayer.org | GET | www.donateaprayer.org/check-auth | field: user.email
+[Captured response] www.donateaprayer.org | GET | www.donateaprayer.org/check-auth | field: user.username
+
+PERSONAL INFORMATION (PII) (1 indicator row(s))
+------------------------------------------------------------------------
+[Captured response] www.donateaprayer.org | GET | www.donateaprayer.org/check-auth | field: user.email
+
+FINANCIAL INFORMATION (0 indicator row(s))
+------------------------------------------------------------------------
+No matching response field names found.
+
+ACCOUNT / RESOURCE IDENTIFIERS (ACCESS-CONTROL REVIEW) (0 indicator row(s))
+------------------------------------------------------------------------
+No matching response field names found.
+
+HOW TO INTERPRET THE THREE RESEARCH OBJECTIVES
+- Login credentials: matched password/token/session/authentication fields are credential indicators.
+- PII: matched identity/contact fields are personal-information indicators.
+- Financial: matched bank/card/payment fields are financial-information indicators.
+- Account/resource identifiers are separated for access-control review, not automatically called leaks.
+- Unauthorized access is NOT established by field names. Verify using controlled accounts and permissions.
+- Check field values securely in the application; do not include secrets in the assignment or CSV.

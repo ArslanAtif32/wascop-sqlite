@@ -1,0 +1,7 @@
+﻿criterion,ahp_weight,weight_percent,note
+Data sensitivity,0.3632,36.3219,Transparent heuristic. See README/report for limitations.
+Evidence strength,0.2297,22.9659,Transparent heuristic. See README/report for limitations.
+Repeatability of indicators,0.1545,15.4506,Transparent heuristic. See README/report for limitations.
+Endpoint exposure proxy,0.0795,7.9531,Transparent heuristic. See README/report for limitations.
+Distinct sensitive fields,0.0511,5.1095,Transparent heuristic. See README/report for limitations.
+Asset criticality proxy,0.1220,12.1990,Transparent heuristic. See README/report for limitations.

@@ -1,0 +1,31 @@
+WASCOPE REMEDIATION-FIRST PRIORITY REPORT (AHP + TOPSIS)
+==============================================================================
+Input CSV: C:\Users\Arslan\Desktop\wascop-sqlite\data\wascope_classification_output\wascope_leak_classification.csv
+Host filter: ALL HOSTS
+Endpoint/category findings ranked: 1
+Evidence basis: response-side field names only by default.
+
+FIX THESE CATEGORIES IN THIS ORDER
+------------------------------------------------------------------------------
+1. Login and authentication data (AHP weight: 53.96%)
+   Fields observed in this dataset: user.email, user.username
+   Other related field names to inspect: user, username, email (on login endpoints), password, pass, passwd, pwd, token, session, sid, client_secret, captcha_token
+   Affected endpoints: 1 across 1 host(s)
+   Response evidence: captured=2, replay=0
+   Recommended remediation: Review the login/authentication response. Never return passwords, password hashes, client secrets, session secrets or reusable authentication tokens to the browser unless a specific token is deliberately issued for that client. Stop echoing secrets, rotate/revoke any confirmed exposed tokens, enforce server-side authentication and authorization, and set session cookies Secure, HttpOnly and an appropriate SameSite policy.
+   Verification: Inspect the actual redacted response; confirm no password/hash/secret is returned. Check token scope, expiry and cookie flags. Test unauthenticated and separate test accounts to ensure responses contain only the requesting user's permitted data.
+
+TOP ENDPOINT REMEDIATION FINDINGS
+------------------------------------------------------------------------------
+1. [Login and authentication data] www.donateaprayer.org | GET www.donateaprayer.org/check-auth | Fields: user.email, user.username | TOPSIS=0.00/100
+
+IMPORTANT INTERPRETATION
+------------------------------------------------------------------------------
+Do not rename `email`, `user` or `password` parameters as a security fix. Parameter names are not the root cause.
+First determine whether the field occurs in a request or a response. A request-only email/password parameter is expected in many login flows and is not evidence of leakage.
+Never return passwords, password hashes, reusable secrets or session tokens in API responses.
+Email is assigned to the login group only when its endpoint path indicates login/authentication; otherwise it is treated as PII.
+Account/resource identifiers are separated for manual object-level authorization testing.
+TOPSIS ranks candidate endpoint/category groups within this dataset. Scores are relative, not probabilities or CVSS values.
+AHP judgements and URL/host proxies are provisional. A low CR verifies arithmetic consistency, not empirical validity.
+Check target ownership and authorization before testing or making remediation claims.

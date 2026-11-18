@@ -1,0 +1,4 @@
+﻿fix_priority,category,ahp_weight,weight_percent,judgment
+1,Login and authentication data,0.5396,53.9615,"Provisional; login/authentication first, financial second, PII third. Validate with expert assessment."
+2,Financial information,0.2970,29.6961,"Provisional; login/authentication first, financial second, PII third. Validate with expert assessment."
+3,Personal information (PII),0.1634,16.3424,"Provisional; login/authentication first, financial second, PII third. Validate with expert assessment."

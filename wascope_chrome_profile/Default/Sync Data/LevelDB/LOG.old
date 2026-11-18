@@ -1,3 +1,3 @@
-2026/11/15-18:56:12.900 3cfc Reusing MANIFEST D:\WAScope\wascope_chrome_profile\Default\Sync Data\LevelDB/MANIFEST-000001
-2026/11/15-18:56:12.900 3cfc Recovering log #3
-2026/11/15-18:56:12.901 3cfc Reusing old log D:\WAScope\wascope_chrome_profile\Default\Sync Data\LevelDB/000003.log 
+2026/11/17-13:23:38.516 3148 Reusing MANIFEST C:\Users\Arslan\Desktop\wascop-sqlite\wascope_chrome_profile\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/11/17-13:23:38.517 3148 Recovering log #3
+2026/11/17-13:23:38.517 3148 Reusing old log C:\Users\Arslan\Desktop\wascop-sqlite\wascope_chrome_profile\Default\Sync Data\LevelDB/000003.log 

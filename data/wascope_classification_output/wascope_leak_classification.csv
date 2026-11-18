@@ -1,0 +1,4 @@
+﻿host,method,endpoint,evidence_source,category,field_name,wascope_response_match_count,interpretation
+www.donateaprayer.org,GET,www.donateaprayer.org/check-auth,Captured response,Login credentials,user.email,3,Response field-name indicator; manually verify the returned value and access context.
+www.donateaprayer.org,GET,www.donateaprayer.org/check-auth,Captured response,Personal information (PII),user.email,3,Response field-name indicator; manually verify the returned value and access context.
+www.donateaprayer.org,GET,www.donateaprayer.org/check-auth,Captured response,Login credentials,user.username,3,Response field-name indicator; manually verify the returned value and access context.

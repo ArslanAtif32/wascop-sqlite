@@ -1,2 +1,3 @@
-2026/11/15-18:57:39.229 1b9c Creating DB D:\WAScope\wascope_chrome_profile\Default\Session Storage since it was missing.
-2026/11/15-18:57:39.315 1b9c Reusing MANIFEST D:\WAScope\wascope_chrome_profile\Default\Session Storage/MANIFEST-000001
+2026/11/17-13:29:31.217 3eb8 Reusing MANIFEST C:\Users\Arslan\Desktop\wascop-sqlite\wascope_chrome_profile\Default\Session Storage/MANIFEST-000001
+2026/11/17-13:29:31.219 3eb8 Recovering log #3
+2026/11/17-13:29:31.221 3eb8 Reusing old log C:\Users\Arslan\Desktop\wascop-sqlite\wascope_chrome_profile\Default\Session Storage/000003.log 

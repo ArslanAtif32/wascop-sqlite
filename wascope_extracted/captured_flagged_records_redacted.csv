@@ -1,2 +1,0 @@
-﻿record_id,host,method,endpoint,response_indicator_count,path_indicator_count,get_indicator_count,post_indicator_count,response_field_labels,path_field_labels,get_field_labels,post_field_labels,created_at
-3,localhost,POST,/login,0,0,0,2,,,,email; password,1794547621
